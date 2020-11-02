@@ -21,7 +21,7 @@ class Animal(ABC):
         return self.current_power > 0
 
     def loss_power(self):
-        self.current_power = self.current_power - int(self.max_power*0.3)
+        self.current_power = int(self.current_power) - int(self.max_power*0.3)
 
     def restore_power(self):
         self.current_power = min(self.max_power, self.current_power + int(self.max_power*0.4))
@@ -41,8 +41,9 @@ class Predator(Animal):
 
         prey_animal = jungle.get_rand_animal()
 
-        if prey_animal.id == self.id:
-            prey_animal.loss_power()
+        if self.id == prey_animal.id:
+            self.loss_power()
+            return
 
         if self.catch(prey_animal):
 
@@ -106,7 +107,7 @@ class Jungle:
         self.animals.pop(animal.id)
 
     def get_rand_animal(self):
-        return choice(list(jungle.animals.values()))
+        return choice(list(self.animals.values()))
 
 
 def animal_generator():
