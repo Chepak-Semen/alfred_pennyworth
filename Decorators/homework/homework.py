@@ -1,30 +1,31 @@
+import logging
 # 1. double_result
 # This decorator function should return the result of another function multiplied by two
+print('_______________1________________')
 def double_result(func):
     # return function result multiplied by two
     def newf(a, b):
-        print(f"1 is done {2*func(a, b)}")
         return 2*func(a, b)
     return newf
 
 def add(a, b):
     return a + b
 
-add(5, 5)  # 10
+print(f'add ={add(5, 5)}')  # 10
 
 
 @double_result
-def add(a, b):
+def add2(a, b):
     return a + b
 
 
-print(5, 5)  # 20
+print(f'add2 ={add2(5, 5)}')  # 20
 
 
 # 2. only_even_parameters
 # This decorator function should only allow a function to have even parameters,
 # otherwise return the string "Please only use even numbers!"
-
+print('_______________2________________')
 def only_even_parameters(func):
     # if args passed to func are not even - return "Please only use even numbers!"
     def even(*args, **kwargs):
@@ -53,16 +54,23 @@ def multiply(a, b, c, d, e):
 # and **kwargs and print them both):
 
 def logged(func):
+    logging.basicConfig(format='%(levelname)s - %(message)s', level=logging.INFO)
     # log function arguments and its return value
-    pass
-
+    def printer(*args, **kwargs):
+        logging.info(f'Arguments for this function are: args - {args}, kwargs - {kwargs}')
+        logging.info(f'args: {args}, kwargs: {kwargs}')
+        result = func(*args, **kwargs)
+        logging.info(f'Result of this function is: {result}')
+        logging.info(f'Result: {result}')
+        return result
+    return printer
 
 @logged
 def func(*args):
     return 3 + len(args)
 
 
-#func(4, 4, 4)
+func(4, 4, 4)
 
 
 # you called func(4, 4, 4)
@@ -73,7 +81,7 @@ def func(*args):
 # you should be able to pass 1 argument to decorator - type.
 # decorator should check if the input to the function is correct based on type.
 # If it is wrong, it should print("Bad Type"), otherwise function should be executed.
-import logging
+print('_______________4________________')
 
 #logging.basicConfig()
 def type_check(correct_type):
@@ -100,3 +108,4 @@ def first_letter(word):
 
 print(first_letter('Hello World'))
 print(first_letter(['Not', 'A', 'String']))  # "Bad Type" should be printed, since non-str passed to decorated function
+print('_______________Logging3________________')
