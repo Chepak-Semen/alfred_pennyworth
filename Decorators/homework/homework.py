@@ -2,12 +2,13 @@
 # This decorator function should return the result of another function multiplied by two
 def double_result(func):
     # return function result multiplied by two
-    pass
-
+    def newf(a, b):
+        print(f"1 is done {2*func(a, b)}")
+        return 2*func(a, b)
+    return newf
 
 def add(a, b):
     return a + b
-
 
 add(5, 5)  # 10
 
@@ -17,7 +18,7 @@ def add(a, b):
     return a + b
 
 
-add(5, 5)  # 20
+print(5, 5)  # 20
 
 
 # 2. only_even_parameters
@@ -26,7 +27,10 @@ add(5, 5)  # 20
 
 def only_even_parameters(func):
     # if args passed to func are not even - return "Please only use even numbers!"
-    pass
+    def even(*args, **kwargs):
+        for i in args:
+            return 'Please add even numbers!' if i % 2 != 0 else func(*args, **kwargs)
+    return even
 
 
 @only_even_parameters
@@ -34,8 +38,8 @@ def add(a, b):
     return a + b
 
 
-add(5, 5)  # "Please add even numbers!"
-add(4, 4)  # 8
+print(add(5, 5))  # "Please add even numbers!"
+print(add(4, 4))# 8
 
 
 @only_even_parameters
@@ -58,7 +62,7 @@ def func(*args):
     return 3 + len(args)
 
 
-func(4, 4, 4)
+#func(4, 4, 4)
 
 
 # you called func(4, 4, 4)
@@ -69,11 +73,16 @@ func(4, 4, 4)
 # you should be able to pass 1 argument to decorator - type.
 # decorator should check if the input to the function is correct based on type.
 # If it is wrong, it should print("Bad Type"), otherwise function should be executed.
+import logging
 
+#logging.basicConfig()
 def type_check(correct_type):
     # put code here
-    pass
-
+    def dekor(func):
+        def inner(param):
+            return func(param) if correct_type == type(param) else 'Bad Type'
+        return inner
+    return dekor
 
 @type_check(int)
 def times2(num):
@@ -90,4 +99,4 @@ def first_letter(word):
 
 
 print(first_letter('Hello World'))
-first_letter(['Not', 'A', 'String'])  # "Bad Type" should be printed, since non-str passed to decorated function
+print(first_letter(['Not', 'A', 'String']))  # "Bad Type" should be printed, since non-str passed to decorated function
