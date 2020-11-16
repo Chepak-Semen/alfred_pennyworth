@@ -1,0 +1,24 @@
+class,power,speed,id
+<<<<<<< HEAD
+Predator,26,90,440dc2e4-d6fb-4540-ae38-1792806f30da
+Herbivorous,83,66,3a29aa9d-fd6b-4767-b626-941e2274bcab
+Predator,21,34,e868d014-8a4e-4520-9085-f74cab5552c0
+Predator,24,86,70e57887-ba35-4f52-8c46-e06d87afefa7
+Herbivorous,99,79,4659f751-7f32-49b1-b94d-b1128a00f2a2
+Predator,42,78,282d6167-78cb-4ebd-8c4e-8add3697199c
+Herbivorous,100,91,bc2c903e-d7f0-4044-a64d-2748b11c8a0a
+Herbivorous,34,21,8fb8095d-f873-43df-b4d9-fb94257237f4
+Herbivorous,45,80,630dcd9b-9066-41c5-b774-42643c3e5c5a
+Herbivorous,99,45,abcd8d05-d3f2-4669-a610-72df8387079d
+=======
+Herbivorous,85,63,c896bce6-f28c-4ebe-a6db-cb6063918f8b
+Predator,93,43,d7e8d142-0b80-4027-8863-3430b51fdf5c
+Predator,74,96,8c2beb16-8725-47ea-ad90-15f627abbcf0
+Predator,61,53,d05cc4a6-0e3b-4aa8-be66-4323463cda49
+Herbivorous,66,37,2c17b1ed-fcba-43e3-b895-c7e296fcab45
+Herbivorous,28,72,bfd09b65-6f4e-4f36-a2eb-eff192b78321
+Predator,40,78,d8e133cf-1f33-413c-986b-f8ae67bb1752
+Herbivorous,95,60,36b5d25a-30b7-4a9d-b9e9-e71473810107
+Herbivorous,61,99,87e32444-6a3a-4522-81f1-ebdf4f61b558
+Herbivorous,95,24,46225c3b-7bba-4137-8b11-c2ab0a65970f
+>>>>>>> 904e614d17e16283d8dd4649224010785cf09bce
