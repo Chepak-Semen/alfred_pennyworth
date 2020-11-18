@@ -6,7 +6,7 @@ from datetime import datetime
 
 def write_csv(start_year, end_year, path_to_source_files, destination_filename):
     csv_files = list(filter(lambda x: str(start_year) <= x <= str(int(end_year) + 1),
-                            [csv_file for csv_file in os.listdir(path_to_source_files)]))
+                            os.listdir(path_to_source_files)))
 
     with open(f"{destination_filename}.csv", 'a') as f:
         for csv_file in csv_files:
@@ -23,17 +23,17 @@ def main():
                         required=True,
                         help='Path to source'
                         )
-    path = parser.parse_args()
+
     parser.add_argument("-sy", "--start_year",
                         dest="start_year",
                         required=False,
-                        default=min(os.listdir(path.path_to_source_files)),
+                        default=min(os.listdir('beer_review/')),
                         help='The parameter corresponds to the year from which we start the search'
                         )
     parser.add_argument("-ey", "--end_year",
                         dest="end_year",
                         required=False,
-                        default=str(sorted(os.listdir(path.path_to_source_files), reverse=True))[2:6],
+                        default=str(sorted(os.listdir('beer_review/'), reverse=True))[2:6],
                         help='The parameter corresponds to the year in which we complete the search'
                         )
 
