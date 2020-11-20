@@ -4,6 +4,15 @@ import os
 from time import gmtime
 
 
+def make_data(source_file_path):
+    data = []
+    with open(os.path.join(source_file_path)) as csv_data:
+        reader = csv.DictReader(csv_data)
+        for row in reader:
+            data.append(row)
+    return data
+
+
 def get_weekday(time_in_sec):
     data = ['Monday', "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     return data[gmtime(time_in_sec).tm_wday]
@@ -17,8 +26,14 @@ def max_grade(source_file_path):
             grade.append(float(row.get('review_overall')) +
                          float(row.get('review_aroma')) +
                          float(row.get('review_taste')))
-
     return max(grade)
+
+
+def check_grade(a):
+    grade = (float(a.get('review_overall')) +
+             float(a.get('review_aroma')) +
+             float(a.get('review_taste')))
+    return grade
 
 
 def main():
@@ -53,57 +68,46 @@ def main():
                         action="store_true"
                         )
     arguments = parser.parse_args()
+    a = max_grade(os.path.join(arguments.source_file_path))
+    data = make_data(arguments.source_file_path)
 
     if arguments.beer_type:
-        print("_________________________________The most popular beer types_________________________________")
-        data = []
+        print("_________________________________The most popular beer types")
 
-        with open(os.path.join(arguments.source_file_path)) as csv_data:
-            reader = csv.DictReader(csv_data)
-            for row in reader:
-                grade = (float(row.get('review_overall')) +
-                         float(row.get('review_aroma')) +
-                         float(row.get('review_taste')))
-                if grade == max_grade(os.path.join(arguments.source_file_path)):
-                    data.append(row.get('beer_style'))
-            print(data)
+        data_beer_type = list(filter(lambda x: a == check_grade(a=x),
+                                     data))
+        for i in data_beer_type:
+            print(i.get('beer_style'))
 
     if arguments.beer_name:
-        print("_________________________________The most popular beer names_________________________________")
-        data = []
+        print("_________________________________The most popular beer names")
 
-        with open(os.path.join(arguments.source_file_path)) as csv_data:
-            reader = csv.DictReader(csv_data)
-            for row in reader:
-                grade = (float(row.get('review_overall')) +
-                         float(row.get('review_aroma')) +
-                         float(row.get('review_taste')))
-                if grade == max_grade(os.path.join(arguments.source_file_path)):
-                    data.append(row.get('beer_name'))
-        print(data)
+        data_beer_names = list(filter(lambda x: a == check_grade(a=x),
+                                      data))
+        for i in data_beer_names:
+            print(i.get('beer_name'))
 
     if arguments.day_of_review:
-        print("_____________________________Day with they most number of review_____________________________")
-        data = {'Monday': 0, "Tuesday": 0, "Wednesday": 0,
-                "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
+        print("_________________________________Day with they most number of review")
+        data_of_days = {'Monday': 0, "Tuesday": 0, "Wednesday": 0,
+                        "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
 
-        with open(os.path.join(arguments.source_file_path)) as csv_data:
-            reader = csv.DictReader(csv_data)
-            for row in reader:
-                data[get_weekday(float(row.get('review_time')))] += 1
-        print(sorted(data.items(), key=lambda v: v[-1], reverse=True)[0])
+        for row in data:
+            data_of_days[get_weekday(float(row.get('review_time')))] += 1
+        print(max(data_of_days, key=data_of_days.get))
 
     if arguments.reviewer_stats:
-        data = {}
+        print("_________________________________Reviewer stats")
+        data_stats_of_review = {}
 
         with open(os.path.join(arguments.source_file_path)) as csv_data:
             reader = csv.DictReader(csv_data)
             for row in reader:
-                data.setdefault(row.get('review_profilename'), 0)
-                data[row.get('review_profilename')] = data[row.get('review_profilename')] + 1
-        print("_______________________________________reviewer_stats________________________________________")
-        for i in data:
-            print(f"{i} : {data[i]}")
+                data_stats_of_review.setdefault(row.get('review_profilename'), 0)
+                data_stats_of_review[row.get('review_profilename')] = data_stats_of_review[
+                                                                          row.get('review_profilename')] + 1
+        for i in data_stats_of_review:
+            print(f"{i} : {data_stats_of_review[i]} review")
 
 
 if __name__ == '__main__':
