@@ -18,14 +18,12 @@ def get_weekday(time_in_sec):
     return data[gmtime(time_in_sec).tm_wday]
 
 
-def max_grade(source_file_path):
+def max_grade(d):
     grade = []
-    with open(os.path.join(source_file_path)) as csv_data:
-        reader = csv.DictReader(csv_data)
-        for row in reader:
-            grade.append(float(row.get('review_overall')) +
-                         float(row.get('review_aroma')) +
-                         float(row.get('review_taste')))
+    for row in d:
+        grade.append(float(row.get('review_overall')) +
+                     float(row.get('review_aroma')) +
+                     float(row.get('review_taste')))
     return max(grade)
 
 
@@ -68,22 +66,23 @@ def main():
                         action="store_true"
                         )
     arguments = parser.parse_args()
-    a = max_grade(os.path.join(arguments.source_file_path))
+
     data = make_data(arguments.source_file_path)
+    a = max_grade(data)
 
     if arguments.beer_type:
         print("_________________________________The most popular beer types")
 
-        data_beer_type = list(filter(lambda x: a == check_grade(a=x),
-                                     data))
+        data_beer_type = filter(lambda x: a == check_grade(a=x),
+                                data)
         for i in data_beer_type:
             print(i.get('beer_style'))
 
     if arguments.beer_name:
         print("_________________________________The most popular beer names")
 
-        data_beer_names = list(filter(lambda x: a == check_grade(a=x),
-                                      data))
+        data_beer_names = filter(lambda x: a == check_grade(a=x),
+                                 data)
         for i in data_beer_names:
             print(i.get('beer_name'))
 
@@ -107,7 +106,7 @@ def main():
                 data_stats_of_review[row.get('review_profilename')] = data_stats_of_review[
                                                                           row.get('review_profilename')] + 1
         for i in data_stats_of_review:
-            print(f"{i} : {data_stats_of_review[i]} review")
+            print(f"{i:20} : {data_stats_of_review[i]} review")
 
 
 if __name__ == '__main__':

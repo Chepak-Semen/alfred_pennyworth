@@ -3,7 +3,7 @@ import csv
 import os
 from datetime import datetime
 
-
+# find year fo files
 def write_csv(start_year, end_year, path_to_source_files, destination_filename):
     csv_files = list(filter(lambda x: str(start_year) <= x <= str(int(end_year) + 1),
                             os.listdir(path_to_source_files)))
